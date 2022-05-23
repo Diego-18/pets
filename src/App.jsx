@@ -1,43 +1,26 @@
-import { useState } from 'react'
-import logo from './logo.svg'
+import React from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from './components/Navbar/Navbar.jsx'
+import Home from './components/Home/Home.jsx'
+
+import Categories from './components/Categories/Categories.jsx'
+import FormCategories from './components/Categories/FormCategories.jsx'
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/categories" element={<Categories />} />
+          <Route exact path="/category" element={<FormCategories opc="add" />} />
+          <Route exact path="/category/:id" element={<FormCategories opc="edit"/>} />
+
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }
