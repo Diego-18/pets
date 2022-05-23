@@ -1,5 +1,6 @@
 import Title from '../Title/Title';
 import ListTags from './ListTags';
+import { pawprints } from '../../assets/img.jsx';
 
 export default function Tags() {
 
@@ -8,9 +9,16 @@ export default function Tags() {
     return (
         <section className="tags mt-5">
             <div className="container" >
-                <div className="card">
-                    <div className="card-header">
-                        <Title title={component} size="h1"/>
+                <div className="cstm-card card border-primary">
+                    <div className="card-header bg-primary text-white">
+                        <div className="row">
+                            <div className="col-md-11">
+                                <Title title={component} size="h1"/>
+                            </div>
+                            <div className="col-md-1">
+                                <img src={pawprints} alt="pawprints" className="cstm-img float-right" />
+                            </div>
+                        </div>
                     </div>
                     <div className="card-body">
                         <ListTags component={component} />

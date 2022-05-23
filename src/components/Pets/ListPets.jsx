@@ -37,28 +37,26 @@ export default function ListPets(props) {
 				<div className="row">
 					{pets.map((pet, index) => (
 					<div className="col-sm-6 mb-2" key={index}>
-						<div className="card">
-							<div key={pet.id} className="card m-2">
-								<div className="card-header">
-									<h4>Pets ID: {pet.id}</h4>
-								</div>
-								<div className="card-body">
-									<Title title={pet.name} size="h3" />
-									<p className="card-text">Category: {pet.category_name}</p>
-									<p className="card-text">Tag: {pet.tag_name}</p>
-									<p className="card-text">Status: {pet.status}</p>
-								</div>
-								<div className="card-footer">
-									<Link to={`/pet/${pet.id}`} className="btn btn-primary">
-										<i className="fa fa-pen" aria-hidden="true" />
-									</Link>
-									<button
-										onClick={() => deletePet(pet.id)}
-										className="btn btn-danger m-2"
-									>
-										<i className="fa fa-trash" aria-hidden="true" />
-									</button>
-								</div>
+						<div key={pet.id} className="card m-2 border-primary">
+							<div className="card-header bg-primary text-white">
+								<h4>Pets ID: {pet.id}</h4>
+							</div>
+							<div className="card-body">
+								<Title title={pet.name} size="h3" />
+								<p className="card-text">Category: {pet.category_name}</p>
+								<p className="card-text">Tag: {pet.tag_name}</p>
+								<p className="card-text">Status: {pet.status}</p>
+							</div>
+							<div className="card-footer">
+								<Link to={`/pet/${pet.id}`} className="btn btn-primary">
+									<i className="fa fa-pen" aria-hidden="true" />
+								</Link>
+								<button
+									onClick={() => deletePet(pet.id)}
+									className="btn btn-danger m-2"
+								>
+									<i className="fa fa-trash" aria-hidden="true" />
+								</button>
 							</div>
 						</div>
 					</div>
