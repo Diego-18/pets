@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import './Navbar.css'
 
 export default function Navbar() {
+    const location = useLocation();
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -10,17 +13,17 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <Link className="nav-link active" to="/">Home</Link>
+                        <li className={location.pathname === "/" ? " nav-item active" : "nav-item"}>
+                            <Link className='nav-link' to="/">Home</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active" to="/categories">Categories</Link>
+                        <li className={location.pathname === "/categories" ? " nav-item active" : "nav-item"}>
+                            <Link className='nav-link' to="/categories">Categories</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/tags">Tags</Link>
+                        <li className={location.pathname === "/tags" ? " nav-item active" : "nav-item"}>
+                            <Link className='nav-link' to="/tags">Tags</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/pets">Pets</Link>
+                        <li className={location.pathname === "/pets" ? " nav-item active" : "nav-item"}>
+                            <Link className='nav-link' to="/pets">Pets</Link>
                         </li>
                     </ul>
                 </div>
