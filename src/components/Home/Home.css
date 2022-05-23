@@ -1,0 +1,13 @@
+.Home .cstm-title {
+    font-size: 5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.Home p {
+    font-size: 1.3rem;
+}
+
+.Home .pawprint {
+    margin: 5rem auto;
+    width: 20rem;
+}
