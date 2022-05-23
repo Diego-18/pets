@@ -1,6 +1,5 @@
 import Title from '../Title/Title';
 import ListCategories from './ListCategories';
-import './Categories.css';
 
 export default function Categories() {
 

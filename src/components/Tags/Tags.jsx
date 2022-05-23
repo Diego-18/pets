@@ -1,6 +1,5 @@
 import Title from '../Title/Title';
 import ListTags from './ListTags';
-import './Tags.css';
 
 export default function Tags() {
 
