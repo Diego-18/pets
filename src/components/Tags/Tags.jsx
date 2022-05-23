@@ -6,7 +6,7 @@ export default function Tags() {
     const component = "Tags";
 
     return (
-        <section className="categories mt-5">
+        <section className="tags mt-5">
             <div className="container" >
                 <div className="card">
                     <div className="card-header">
