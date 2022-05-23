@@ -80,8 +80,8 @@ export default function FormPets(props){
 
     return(
         <div className='container'>
-            <div className="cstm-card card mt-5 mb-5">
-                <div className="card-header">
+            <div className="cstm-card card-form card mt-5 mb-5 border-primary">
+                <div className="card-header bg-primary text-white">
                     <div className="row">
                         <div className="col-md-2">
                             <button onClick={Back} className="btn btn-secondary">

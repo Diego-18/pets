@@ -18,6 +18,31 @@
 }
 
 .cstm-card {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    margin: 1rem auto;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.card-form {
     width: 50rem;
     margin: 0 auto;
+    text-align: center;
+}
+
+input,
+select {
+    width: 50% !important;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.card-label {
+    font-family: var(--font-ppal);
+    font-weight: bold;
+}
+
+.cstm-img {
+    width: 4rem;
+    height: auto;
 }
