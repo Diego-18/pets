@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const endpoint = "http://localhost:8000/api";
 
 export default function ListCategory(props) {
 	const [categories, setCategories] = useState([]);
+	const MySwal = withReactContent(Swal);
 
     useEffect(() => {
 		getAllCategories();
@@ -17,8 +20,21 @@ export default function ListCategory(props) {
 	};
 
 	const deleteCategory = async id => {
-		await axios.delete(`${endpoint}/category/${id}`);
-		getAllCategories();
+		await MySwal.fire({
+            icon: 'warning',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            showCancelButton: true,
+			confirmButtonColor: '#0D6EFD',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+			if (result.isConfirmed) {
+				axios.delete(`${endpoint}/category/${id}`);
+				Swal.fire('Deleted!','Your file has been deleted.','success')
+				getAllCategories();
+			}
+		})
 	};
 
 	return (

@@ -1,4 +1,6 @@
 import axios from "axios";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Title from "../Title/Title";
@@ -15,10 +17,11 @@ export default function FormPets(props){
     const [tags, setTags] = useState([])
     const navigate = useNavigate()
     const { id } = useParams()
+    const MySwal = withReactContent(Swal)
 
     const updatePet = async (e) => {
         e.preventDefault()
-        await axios.put(`${endpoint}/pet`, {
+        const response = await axios.put(`${endpoint}/pet`, {
             id: id,
             name: name,
             category_fk: valueCategory,
@@ -26,7 +29,14 @@ export default function FormPets(props){
             photoUrls: photo,
             status: status
         });
-        navigate('/pets')
+        const statusInternal = response.data.status;
+        if ( statusInternal === 200) {
+            Notifications('success', 'success', `Status: ${statusInternal}`, 'Pet added successfully')
+            Back()
+        }
+        if( statusInternal === 405){
+            Notifications('error', 'error', `Status: ${statusInternal}`, 'Validation exception')
+        }
     }
 
     const getAllCategories = async () => {
@@ -41,7 +51,7 @@ export default function FormPets(props){
 
     const addPet = async (e) => {
         e.preventDefault()
-        await axios.post(`${endpoint}/pet`,
+        const response = await axios.post(`${endpoint}/pet`,
         {
             name: name,
             category_fk: valueCategory,
@@ -49,7 +59,27 @@ export default function FormPets(props){
             photoUrls: photo,
             status: status
         })
-        navigate('/pets')
+        const statusInternal = response.data.status;
+        if ( statusInternal === 200) {
+            Notifications('success', 'success', `Status: ${statusInternal}`, 'Pet added successfully')
+            Back()
+        }
+        if( statusInternal === 405){
+            Notifications('error', 'error', `Status: ${statusInternal}`, 'Validation exception')
+        }
+    }
+
+    const Notifications = (type, icon, title, text) => {
+        MySwal.fire({
+            position: 'top-end',
+            type: type,
+            icon: icon,
+            text: text,
+            footer: title,
+            ConfirmButton: confirm,
+            confirmButtonColor: '#0D6EFD',
+            confirmButtonText: 'Ok'
+        })
     }
 
     const Back = () => {

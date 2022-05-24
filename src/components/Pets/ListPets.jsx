@@ -2,12 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Title from "../Title/Title";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const endpoint = "http://localhost:8000/api";
 
 export default function ListPets(props) {
 	const [pets, setPets] = useState([]);
 	const navigate = useNavigate()
+	const MySwal = withReactContent(Swal);
 
 	const getStatusPets = async (param) => {
 		const response = await axios({method: "get", url: "http://localhost:8000/api/pet/findByStatus", params: { status: param } })
@@ -15,8 +18,21 @@ export default function ListPets(props) {
 	}
 
 	const deletePet = async id => {
-		await axios.delete(`${endpoint}/pet/${id}`);
-		getStatusPets('available')
+		MySwal.fire({
+            icon: 'warning',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            showCancelButton: true,
+			confirmButtonColor: '#0D6EFD',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+			if (result.isConfirmed) {
+				axios.delete(`${endpoint}/pet/${id}`);
+				Swal.fire('Deleted!','Your file has been deleted.','success')
+				navigate("/")
+			}
+		})
 	};
 
 	return (
