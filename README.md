@@ -41,7 +41,7 @@ npm run preview
 
 ## DEMO
 
-
+Enter the project demo [here.](https://pets-demo.netlify.app)
 
 ## Technologies used
 
