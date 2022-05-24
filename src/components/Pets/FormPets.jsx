@@ -95,8 +95,6 @@ export default function FormPets(props){
 
     if (props.opc === 'edit') {
         useEffect(() => {
-            getAllCategories()
-            getAllTags()
             const getPetById = async () => {
                 const response = await axios.get(`${endpoint}/pet/${id}`);
                 setName(response.data.data.name)
@@ -104,6 +102,8 @@ export default function FormPets(props){
                 setValueTag(response.data.data.tag_fk)
                 setStatus(response.data.data.status)
             }
+            getAllCategories()
+            getAllTags()
             getPetById()
         }, [])
     }
@@ -145,10 +145,10 @@ export default function FormPets(props){
                                     />
                                 </div>
                                 <div className='mb-3'>
-                                    <select className="form-select" onChange={(e) => setCategories(e.target.value)}>
+                                    <select className="form-select" onChange={(e) => setValueCategory(e.target.value)}>
                                         <option value="">Select a category</option>
                                         {categories.map(category => (
-                                            <option key={category.id}
+                                            <option key={category.id} value={category.id}
                                             selected={category.id === valueCategory}>
                                                 {category.name}
                                             </option>
@@ -156,10 +156,10 @@ export default function FormPets(props){
                                     </select>
                                 </div>
                                 <div className='mb-3'>
-                                    <select className="form-select" onChange={(e) => setTags(e.target.value)}>
+                                    <select className="form-select" onChange={(e) => setValueTag(e.target.value)}>
                                         <option value="">Select a Tag</option>
                                         {tags.map(tag => (
-                                            <option key={tag.id} selected={tag.id === valueTag}>
+                                            <option key={tag.id} value={tag.id} selected={tag.id === valueTag}>
                                                     {tag.name}
                                             </option>
                                         ))}

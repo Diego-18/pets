@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Title from "../Title/Title";
 
 
-const endpoint = 'https://pets.diegochavez-dc.com/api/tag/'
+const endpoint = 'https://pets.diegochavez-dc.com/api/tag'
 
 export default function FormTags(props){
     const [name, setName] = useState("")
@@ -17,7 +17,7 @@ export default function FormTags(props){
 
     const updateTag = async (e) => {
         e.preventDefault()
-        const response = await axios.put(`${endpoint}${id}`, {
+        const response = await axios.put(`${endpoint}/${id}`, {
             name: name
         });
         const status = response.data.status;
@@ -63,7 +63,7 @@ export default function FormTags(props){
     if (props.opc === 'edit') {
         useEffect(() => {
             const getTagById = async () => {
-                const response = await axios.get(`${endpoint}${id}`);
+                const response = await axios.get(`${endpoint}/${id}`);
                 setName(response.data.data[0].name)
             }
             getTagById()
