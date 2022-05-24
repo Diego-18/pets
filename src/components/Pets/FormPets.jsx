@@ -18,35 +18,31 @@ export default function FormPets(props){
     const navigate = useNavigate()
     const { id } = useParams()
     const MySwal = withReactContent(Swal)
-
-    const updatePet = async (e) => {
-        e.preventDefault()
-        const response = await axios.put(`${endpoint}/pet`, {
-            id: id,
-            name: name,
-            category_fk: valueCategory,
-            tag_fk: valueTag,
-            photoUrls: photo,
-            status: status
-        });
-        const statusInternal = response.data.status;
-        if ( statusInternal === 200) {
-            Notifications('success', 'success', `Status: ${statusInternal}`, 'Pet added successfully')
-            Back()
-        }
-        if( statusInternal === 405){
-            Notifications('error', 'error', `Status: ${statusInternal}`, 'Validation exception')
-        }
-    }
+    let StatusPeticion = "";
+    let StatusInternal = ''
 
     const getAllCategories = async () => {
-		const response = await axios.get(`${endpoint}/categories`);
-		setCategories(response.data.data);
+		const response = await axios.get(`${endpoint}/categories`)
+		.then(function(response){
+			setCategories(response.data.data);
+		}).catch(
+			function (error){
+				StatusPeticion = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Unable to obtain records.', StatusPeticion);
+			}
+		)
 	};
 
     const getAllTags = async () => {
-		const response = await axios.get(`${endpoint}/tags`);
-		setTags(response.data.data);
+		const response = await axios.get(`${endpoint}/tags`)
+        .then(function(response){
+			setTags(response.data.data);
+		}).catch(
+			function (error){
+				StatusPeticion = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Unable to obtain records.', StatusPeticion);
+			}
+		)
 	};
 
     const addPet = async (e) => {
@@ -59,23 +55,59 @@ export default function FormPets(props){
             photoUrls: photo,
             status: status
         })
-        const statusInternal = response.data.status;
-        if ( statusInternal === 200) {
-            Notifications('success', 'success', `Status: ${statusInternal}`, 'Pet added successfully')
-            Back()
-        }
-        if( statusInternal === 405){
-            Notifications('error', 'error', `Status: ${statusInternal}`, 'Validation exception')
-        }
+        .then(function(response){
+            StatusInternal = response.data.status;
+            StatusPeticion = 'Status: ' + StatusInternal;
+            if ( StatusInternal === 200) {
+                Back()
+                Notifications('success', 'success', 'Registered', 'Pet added successfully', StatusPeticion)
+            }
+            if( StatusInternal === 405){
+                Notifications('error', 'error', 'Validation', 'Validation exception', StatusPeticion)
+            }
+		}).catch(
+			function (error){
+				StatusPeticion = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Failed to registrered record', StatusPeticion)
+			}
+		)
     }
 
-    const Notifications = (type, icon, title, text) => {
+    const updatePet = async (e) => {
+        e.preventDefault()
+        const response = await axios.put(`${endpoint}/pet`, {
+            id: id,
+            name: name,
+            category_fk: valueCategory,
+            tag_fk: valueTag,
+            photoUrls: photo,
+            status: status
+        })
+        .then(function(response){
+            StatusInternal = response.data.status;
+            StatusPeticion = 'Status: ' + StatusInternal;
+            if ( StatusInternal === 200) {
+                Back()
+                Notifications('success', 'success', 'Updated', 'Pet update successfully', StatusPeticion)
+            }
+            if( StatusInternal === 405){
+                Notifications('error', 'error', 'Validation', 'Validation exception', StatusPeticion)
+            }
+		}).catch(
+			function (error){
+				StatusPeticion = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Failed to updated record', StatusPeticion);
+			}
+		)
+    }
+
+    const Notifications = (type, icon, title, text, footer) => {
         MySwal.fire({
-            position: 'top-end',
             type: type,
+            title: title,
             icon: icon,
             text: text,
-            footer: title,
+            footer: footer,
             ConfirmButton: confirm,
             confirmButtonColor: '#0D6EFD',
             confirmButtonText: 'Ok'

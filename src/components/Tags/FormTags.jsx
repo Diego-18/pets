@@ -12,44 +12,64 @@ export default function FormTags(props){
     const [name, setName] = useState("")
     const navigate = useNavigate()
     const { id } = useParams()
-
     const MySwal = withReactContent(Swal);
+    let StatusInternal = ''
+    let status = ''
+
+    const addTag = async (e) => {
+        e.preventDefault()
+        const response = await axios.post(endpoint, { name: name })
+        .then(function(response){
+            StatusInternal = response.data.status;
+            status = 'Status: ' + StatusInternal;
+            if ( StatusInternal === 200) {
+                Back()
+                Notifications('success', 'success', 'Registered', 'Tag added successfully', status)
+                Back()
+            }
+            if( StatusInternal  === 405){
+                Notifications('error', 'error', 'Validation', 'Validation exception', status)
+            }
+		}).catch(
+			function (error){
+				if(error.response.status){
+                    status = 'Status: ' + error.response.status;
+				    Notifications('error', 'error', 'Error', 'Failed to registrered record', status);
+                }
+			}
+		)
+    }
 
     const updateTag = async (e) => {
         e.preventDefault()
         const response = await axios.put(`${endpoint}/${id}`, {
             name: name
-        });
-        const status = response.data.status;
-        if ( status === 200) {
-            Notifications('success', 'success', `Status: ${status}`, 'Tag updated successfully')
-            Back()
-        }
-        if( status === 405){
-            Notifications('error', 'error', `Status: ${status}`, 'Validation exception')
-        }
+        })
+        .then(function(response){
+            StatusInternal = response.data.status;
+            status = 'Status: ' + StatusInternal;
+            if ( StatusInternal === 200) {
+                Notifications('success', 'success', 'Updated', 'Tag update successfully', status)
+                Back()
+            }
+            if( StatusInternal === 405){
+                Notifications('error', 'error', 'Validation', 'Validation exception', status)
+            }
+		}).catch(
+			function (error){
+				status = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Failed to updated record', status);
+			}
+		)
     }
 
-    const addTag = async (e) => {
-        e.preventDefault()
-        const response = await axios.post(endpoint, { name: name })
-        const status = response.data.status;
-        if ( status === 200) {
-            Notifications('success', 'success', `Status: ${status}`, 'Tag added successfully')
-            Back()
-        }
-        if( status === 405){
-            Notifications('error', 'error', `Status: ${status}`, 'Validation exception')
-        }
-    }
-
-    const Notifications = (type, icon, title, text) => {
+    const Notifications = (type, icon, title, text, footer) => {
         MySwal.fire({
-            position: 'top-end',
             type: type,
             icon: icon,
+            title: title,
             text: text,
-            footer: title,
+            footer: footer,
             ConfirmButton: confirm,
             confirmButtonColor: '#0D6EFD',
             confirmButtonText: 'Ok'

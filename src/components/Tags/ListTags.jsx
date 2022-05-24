@@ -9,33 +9,50 @@ const endpoint = "https://pets.diegochavez-dc.com/api";
 export default function ListTags(props) {
 	const [tags, setTags] = useState([]);
 	const MySwal = withReactContent(Swal);
+	let status = "";
 
     useEffect(() => {
 		getAllTags();
 	}, []);
 
 	const getAllTags = async () => {
-		const response = await axios.get(`${endpoint}/tags`);
-		setTags(response.data.data);
+		const response = await axios.get(`${endpoint}/tags`)
+		.then(function(response){
+			setTags(response.data.data);
+		}).catch(
+			function (error){
+				status = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Unable to obtain records.', status);
+			}
+		)
 	};
 
 	const deleteTag = async id => {
-		MySwal.fire({
-            icon: 'warning',
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            showCancelButton: true,
-			confirmButtonColor: '#0D6EFD',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-			if (result.isConfirmed) {
-				axios.delete(`${endpoint}/tag/${id}`);
-				Swal.fire('Deleted!','Your file has been deleted.','success')
-				getAllTags();
+		const response = await axios.delete(`${endpoint}/tag/${id}`)
+		.then(function(response){
+			status = 'Status: ' + response.data.status;
+			Notifications('success', 'success', 'Deleted', 'Tag deleted successfully.', status);
+		}).catch(
+			function (error){
+				status = 'Status: ' + error.response.status;
+				Notifications('error', 'error', 'Error', 'Failed to delete record', status);
 			}
-		})
+		)
+		getAllTags();
 	};
+
+	const Notifications = (type, icon, title, text, footer) => {
+        MySwal.fire({
+            type: type,
+            icon: icon,
+            title: title,
+			text: text,
+            footer: footer,
+            ConfirmButton: confirm,
+            confirmButtonColor: '#0D6EFD',
+            confirmButtonText: 'Ok'
+        })
+    }
 
 	return (
 		<div className="container text-center">
