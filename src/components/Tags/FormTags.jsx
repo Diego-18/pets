@@ -1,7 +1,10 @@
 import axios from "axios";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Title from "../Title/Title";
+
 
 const endpoint = 'http://localhost:8000/api/tag/'
 
@@ -10,18 +13,47 @@ export default function FormTags(props){
     const navigate = useNavigate()
     const { id } = useParams()
 
+    const MySwal = withReactContent(Swal);
+
     const updateTag = async (e) => {
         e.preventDefault()
-        await axios.put(`${endpoint}${id}`, {
+        const response = await axios.put(`${endpoint}${id}`, {
             name: name
         });
-        navigate('/tags')
+        const status = response.data.status;
+        if ( status === 200) {
+            Notifications('success', 'success', `Status: ${status}`, 'Tag updated successfully')
+            Back()
+        }
+        if( status === 405){
+            Notifications('error', 'error', `Status: ${status}`, 'Validation exception')
+        }
     }
 
     const addTag = async (e) => {
         e.preventDefault()
-        await axios.post(endpoint, { name: name })
-        navigate('/tags')
+        const response = await axios.post(endpoint, { name: name })
+        const status = response.data.status;
+        if ( status === 200) {
+            Notifications('success', 'success', `Status: ${status}`, 'Tag added successfully')
+            Back()
+        }
+        if( status === 405){
+            Notifications('error', 'error', `Status: ${status}`, 'Validation exception')
+        }
+    }
+
+    const Notifications = (type, icon, title, text) => {
+        MySwal.fire({
+            position: 'top-end',
+            type: type,
+            icon: icon,
+            text: text,
+            footer: title,
+            ConfirmButton: confirm,
+            confirmButtonColor: '#0D6EFD',
+            confirmButtonText: 'Ok'
+        })
     }
 
     const Back = () => {

@@ -1,4 +1,6 @@
 import axios from "axios";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Title from "../Title/Title";
@@ -9,19 +11,49 @@ export default function FormCategories(props){
     const [name, setName] = useState("")
     const navigate = useNavigate()
     const { id } = useParams()
+    const MySwal = withReactContent(Swal)
 
     const updateCategory = async (e) => {
         e.preventDefault()
-        await axios.put(`${endpoint}${id}`, {
+        const response = await axios.put(`${endpoint}${id}`, {
             name: name
         });
-        navigate('/categories')
+        const status = response.data.status;
+
+        if ( status === 200) {
+            Notifications('success', 'success', `Status: ${status}`, 'Category updated successfully')
+            Back();
+        }
+        if( status === 405){
+            Notifications('error', 'error', `Status: ${status}`, 'Validation exception')
+        }
     }
 
     const addCategory = async (e) => {
         e.preventDefault()
-        await axios.post(endpoint, { name: name })
-        navigate('/categories')
+        const response = await axios.post(endpoint, { name: name })
+        const status = response.data.status;
+
+        if ( status === 200) {
+            Notifications('success', 'success', `Status: ${status}`, 'Category added successfully')
+            Back();
+        }
+        if( status === 405){
+            Notifications('error', 'error', `Status: ${status}`, 'Validation exception')
+        }
+    }
+
+    const Notifications = (type, icon, title, text) => {
+        MySwal.fire({
+            position: 'top-end',
+            type: type,
+            icon: icon,
+            text: text,
+            footer: title,
+            ConfirmButton: confirm,
+            confirmButtonColor: '#0D6EFD',
+            confirmButtonText: 'Ok'
+        })
     }
 
     const Back = () => {
