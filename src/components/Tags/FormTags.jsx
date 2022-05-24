@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Title from "../Title/Title";
 
 
-const endpoint = 'http://pets.diegochavez-dc.com/api/tag/'
+const endpoint = 'https://pets.diegochavez-dc.com/api/tag/'
 
 export default function FormTags(props){
     const [name, setName] = useState("")

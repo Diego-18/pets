@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const endpoint = "http://pets.diegochavez-dc.com/api";
+const endpoint = "https://pets.diegochavez-dc.com/api";
 
 export default function ListCategory(props) {
 	const [categories, setCategories] = useState([]);
