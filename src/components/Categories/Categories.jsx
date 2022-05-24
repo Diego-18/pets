@@ -12,11 +12,11 @@ export default function Categories() {
                 <div className="card cstm-card border-primary">
                     <div className="card-header bg-primary text-white">
                         <div className="row">
-                            <div className="col-md-11">
+                            <div className="col-sm-10 col-md-10 col-lg-11">
                                 <Title title={component} size="h1"/>
                             </div>
-                            <div className="col-md-1">
-                                <img src={pawprints} alt="pawprints" className="cstm-img float-right" />
+                            <div className="col-sm-2 col-md-2 col-lg-1">
+                                <img src={pawprints} alt="pawprints" className="cstm-img" />
                             </div>
                         </div>
                     </div>

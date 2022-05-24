@@ -113,13 +113,13 @@ export default function FormPets(props){
             <div className="cstm-card card-form card mt-5 mb-5 border-primary">
                 <div className="card-header bg-primary text-white">
                     <div className="row">
-                        <div className="col-md-2">
+                        <div className="col-sm-1 col-md-1 col-lg-1">
                             <button onClick={Back} className="btn btn-secondary">
                                 <i className="fa-solid fa-backward"></i>
                             </button>
                         </div>
 
-                        <div className="col-md-10">
+                        <div className="col-sm-10 col-md-10 col-lg-10">
                             {props.opc === 'edit' ? (
                                 <Title title="Edit Pet" size="h3"/>
                             ) : (
@@ -134,7 +134,7 @@ export default function FormPets(props){
                 {props.opc === 'edit' ? (
                     <form onSubmit={updatePet}>
                         <div className="row">
-                            <div className='col-12'>
+                            <div className='col-sm-12 col-md-12 col-lg-12'>
                                 <div className='mb-3'>
                                     <input
                                         value={name}
@@ -187,7 +187,7 @@ export default function FormPets(props){
                 ) : (
                     <form onSubmit={addPet}>
                         <div className="row">
-                            <div className='col-12'>
+                            <div className='col-sm-10 col-md-10 col-lg-12'>
                                 <div className='mb-3'>
                                     <input
                                         value={name}

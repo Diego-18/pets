@@ -52,7 +52,7 @@ export default function ListPets(props) {
 			<div className="cstm-pets">
 				<div className="row">
 					{pets.map((pet, index) => (
-					<div className="col-sm-6 mb-2" key={index}>
+					<div className="col-sm-12 col-md-6 col-lg-4 mb-2" key={index}>
 						<div key={pet.id} className="card m-2 border-primary">
 							<div className="card-header bg-primary text-white">
 								<h4>Pets ID: {pet.id}</h4>
