@@ -13,10 +13,6 @@
     float: right;
 }
 
-.card-label {
-    text-align: center;
-}
-
 .cstm-card {
     border: 1px solid #ccc;
     border-radius: 0.5rem;
@@ -25,14 +21,14 @@
 }
 
 .card-form {
-    width: 50rem;
+    width: 70%;
     margin: 0 auto;
     text-align: center;
 }
 
 input,
 select {
-    width: 50% !important;
+    width: 70% !important;
     text-align: center;
     margin: 0 auto;
 }
@@ -40,6 +36,7 @@ select {
 .card-label {
     font-family: var(--font-ppal);
     font-weight: bold;
+    text-align: center;
 }
 
 .cstm-img {
