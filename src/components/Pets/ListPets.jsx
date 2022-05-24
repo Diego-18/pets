@@ -5,7 +5,7 @@ import Title from "../Title/Title";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const endpoint = "http://localhost:8000/api";
+const endpoint = "http://pets.diegochavez-dc.com/api";
 
 export default function ListPets(props) {
 	const [pets, setPets] = useState([]);
@@ -13,7 +13,7 @@ export default function ListPets(props) {
 	const MySwal = withReactContent(Swal);
 
 	const getStatusPets = async (param) => {
-		const response = await axios({method: "get", url: "http://localhost:8000/api/pet/findByStatus", params: { status: param } })
+		const response = await axios({method: "get", url: "http://pets.diegochavez-dc.com/api/pet/findByStatus", params: { status: param } })
 		setPets(response.data.data);
 	}
 
