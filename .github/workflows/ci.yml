@@ -1,0 +1,35 @@
+name: Deployment Pipeline
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+        types: [opened, synchronize]
+
+jobs:
+    avoid_reduncy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Cancel Previous Redundant Builds
+              uses: styfle/cancel-workflow-action@0.9.1
+              with:
+                  access_token: ${{ github.token }}
+
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - name: Install dependencies
+              run: npm install --no-audit --no-fund --no-optional
+            - name: Build
+              run: npm run build
+            - uses: actions/upload-artifact@v2
+              with:
+                  name: dist
+                  path: dist
