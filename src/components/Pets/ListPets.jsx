@@ -1,31 +1,34 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import Title from '../Title/Title';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import Title from "../Title/Title";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
-const endpoint = 'https://pets.diegochavez-dc.com/api';
+const endpoint = "https://pets.diegochavez-dc.com/api";
 
 export default function ListPets(props) {
 	const [pets, setPets] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const MySwal = withReactContent(Swal);
-	let status = '';
+	let status = "";
 
 	const getStatusPets = async (param) => {
 		try {
+			setLoading(true); // Establecer el estado de carga en true
 			const response = await axios.get(`${endpoint}/pet/findByStatus`, {
 				params: { status: param },
 			});
 			setPets(response.data.data);
+			setLoading(false); // Establecer el estado de carga en false una vez que se complete la llamada a la API
 		} catch (error) {
-			status = 'Status: ' + error.response.status;
+			status = "Status: " + error.response.status;
 			Notifications(
-				'error',
-				'error',
-				'Error',
-				'Unable to obtain records.',
+				"error",
+				"error",
+				"Error",
+				"Unable to obtain records.",
 				status
 			);
 		}
@@ -34,25 +37,25 @@ export default function ListPets(props) {
 	const deletePet = async (id) => {
 		try {
 			const response = await axios.delete(`${endpoint}/pet/${id}`);
-			status = 'Status: ' + response.data.status;
+			status = "Status: " + response.data.status;
 			Notifications(
-				'success',
-				'success',
-				'Deleted',
-				'Pet deleted successfully.',
+				"success",
+				"success",
+				"Deleted",
+				"Pet deleted successfully.",
 				status
 			);
 		} catch (error) {
-			status = 'Status: ' + error.response.status;
+			status = "Status: " + error.response.status;
 			Notifications(
-				'error',
-				'error',
-				'Error',
-				'Failed to delete record',
+				"error",
+				"error",
+				"Error",
+				"Failed to delete record",
 				status
 			);
 		}
-		getStatusPets('available');
+		getStatusPets("available");
 	};
 
 	const Notifications = (type, icon, title, text, footer) => {
@@ -63,8 +66,8 @@ export default function ListPets(props) {
 			text: text,
 			footer: footer,
 			ConfirmButton: confirm,
-			confirmButtonColor: '#0D6EFD',
-			confirmButtonText: 'Ok',
+			confirmButtonColor: "#0D6EFD",
+			confirmButtonText: "Ok",
 		});
 	};
 
@@ -74,21 +77,21 @@ export default function ListPets(props) {
 				<button
 					className="btn btn-outline-primary m-2"
 					type="button"
-					onClick={() => getStatusPets('available')}
+					onClick={() => getStatusPets("available")}
 				>
 					Available
 				</button>
 				<button
 					className="btn btn-outline-primary m-2"
 					type="button"
-					onClick={() => getStatusPets('pending')}
+					onClick={() => getStatusPets("pending")}
 				>
 					Pending
 				</button>
 				<button
 					className="btn btn-outline-primary m-2"
 					type="button"
-					onClick={() => getStatusPets('sold')}
+					onClick={() => getStatusPets("sold")}
 				>
 					Sold
 				</button>
@@ -100,6 +103,21 @@ export default function ListPets(props) {
 				</div>
 			</div>
 
+			{/* Preloader */}
+			{loading && (
+				<div className="text-center">
+					<div className="spinner-border text-primary" role="status">
+						<span className="visually-hidden">Cargando...</span>
+					</div>
+				</div>
+			)}
+
+			{/* Mensaje de no se encontraron registros */}
+			{!loading && pets.length === 0 && (
+				<div className="text-center">No se encontraron registros.</div>
+			)}
+
+			{/* Lista de mascotas */}
 			<div className="cstm-pets">
 				<div className="row">
 					{pets.map((pet, index) => (
